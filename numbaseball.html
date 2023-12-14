@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    Number : <input id="userGuess" type="number">
+    <button onclick="checkGuess()">확인</button>
+    <p id="result"></p>
+    <script>
+        let randomNumbers = getRandomNumbers();
+        let attempts = 0;
+
+        function getRandomNumbers() {
+            const numbers = [];
+
+            while (numbers.length < 3) {
+                const num = Math.floor(Math.random() * 10);
+
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+
+            return numbers;
+        }
+
+        function checkGuess() {
+            const userGuess = document.getElementById('userGuess').value.split('').map(Number);
+            let strikes = 0;
+            let balls = 0;
+
+            userGuess.forEach((num, idx) => {
+                if (randomNumbers[idx] === num) {
+                    strikes++;
+                } else if (randomNumbers.includes(num)) {
+                    balls++;
+                }
+            });
+
+            attempts++;
+
+            if (strikes === 3) {
+                document.getElementById('result').innerHTML = `${attempts}번 만에 맞추셨습니다.`;
+                randomNumbers = getRandomNumbers(); // 게임 리셋
+                attempts = 0;
+            } else {
+                document.getElementById('result').innerHTML = `${attempts}번째 시도: ${strikes}S${balls}B`;
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
